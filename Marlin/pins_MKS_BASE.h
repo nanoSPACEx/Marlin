@@ -6,3 +6,9 @@
 
 #undef HEATER_1_PIN
 #define HEATER_1_PIN        7
+
+#define KILL_PIN           80 //80 with Smart Controller LCD
+#define BTN_EN1 33
+#define BTN_EN2 31
+#define BTN_ENC 35  //the click
+
