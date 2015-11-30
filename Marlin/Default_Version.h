@@ -6,9 +6,9 @@
 // #error "You must specify the following parameters related to your distribution"
 
 #if true
-#define SHORT_BUILD_VERSION "1.1.0-RC2"
-#define DETAILED_BUILD_VERSION "1.1.0-RC2 From Archive"
-#define STRING_DISTRIBUTION_DATE "2015-09-28 12:00"
+#define SHORT_BUILD_VERSION "V1.1.0-RC2 BEEVC.01"
+#define DETAILED_BUILD_VERSION "1.1.0-RC2 BEEVEARYCREATIVE"
+#define STRING_DISTRIBUTION_DATE "2015-11-19 16:00"
 // It might also be appropriate to define a location where additional information can be found
-#define SOURCE_CODE_URL  "http:// ..."
+#define SOURCE_CODE_URL  "https://github.com/beeverycreative/Marlin"
 #endif
