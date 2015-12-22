@@ -480,76 +480,21 @@ unsigned lcd_print(char c) { return charset_mapper(c); }
     lcd.createChar(3, botom_right);
 
     lcd.clear();
-//#define TEXT_SCREEN_LOGO_SHIFT ((LCD_WIDTH/2) - 4)
-    #define TEXT_SCREEN_LOGO_SHIFT ((LCD_WIDTH/2) - 9)
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "*****************" ));  lcd.print('*');
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "*******************"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "*****************" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 500);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "********-********" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "*********E*********"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "********-********" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "*******---*******" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "********BEE********"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "*******---*******" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "******-----******" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "*******oBEEp*******"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "******-----******" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "*****-------*****" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "******loBEEpr******"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "*****-------*****" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "****---------****" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "*****lloBEEpru*****"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "****---------****" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "***-----------***" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "****elloBEEprus****"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "***-----------***" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "**-------------**" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "***helloBEEprusa***"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "**-------------**" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "*---------------*" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "** helloBEEprusa **"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "*---------------*" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "-----------------" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "*  helloBEEprusa  *"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "-----------------" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-	
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('*'); lcd_printPGM(PSTR( "-----------------" ));  lcd.print('*');
-	lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                lcd_printPGM(PSTR( "|  helloBEEprusa  |"));
-    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('*'); lcd_printPGM(PSTR( "-----------------" ));  lcd.print('*');
-	lcd_scroll(0, 3, PSTR("                 "), LCD_WIDTH, 100);
-    //lcd_scroll(0, 3, PSTR("  BEE"), LCD_WIDTH, 3000);
+
+    #define TEXT_SCREEN_LOGO_SHIFT ((LCD_WIDTH/2) - 4)
+    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 0); lcd.print('\x00'); lcd_printPGM(PSTR( "------" ));  lcd.print('\x01');
+    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 1);                    lcd_printPGM(PSTR("|Marlin|"));
+    lcd.setCursor(TEXT_SCREEN_LOGO_SHIFT, 2); lcd.print('\x02'); lcd_printPGM(PSTR( "------" ));  lcd.print('\x03');
+
+    lcd_scroll(0, 3, PSTR("marlinfirmware.org"), LCD_WIDTH, 3000);
 
     #ifdef STRING_SPLASH_LINE1
-      //lcd_erase_line(3);
-	  lcd_scroll(0, 3, PSTR("   BEE"), LCD_WIDTH, 700);
-	  //lcd_erase_line(3);
-	  lcd_scroll(0, 3, PSTR("   BEEVERY"), LCD_WIDTH, 700);
-	  //lcd_erase_line(3);
-	  lcd_scroll(0, 3, PSTR("   BEEVERYCREATIVE"), LCD_WIDTH, 700);
-      lcd_scroll(0, 3, PSTR(STRING_SPLASH_LINE1), LCD_WIDTH, 700);
+      lcd_erase_line(3);
+      lcd_scroll(0, 3, PSTR(STRING_SPLASH_LINE1), LCD_WIDTH, 1000);
     #endif
     #ifdef STRING_SPLASH_LINE2
-      //lcd_erase_line(3);
-      lcd_scroll(0, 3, PSTR(STRING_SPLASH_LINE2), LCD_WIDTH, 100);
+      lcd_erase_line(3);
+      lcd_scroll(0, 3, PSTR(STRING_SPLASH_LINE2), LCD_WIDTH, 1000);
     #endif
   }
 #endif // SHOW_BOOTSCREEN
