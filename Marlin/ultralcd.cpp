@@ -452,7 +452,7 @@ static void lcd_filament_change_unload_load (unsigned int extruder, unsigned int
   }
 
   // alert the user with sound that extrude will start
-  buzz(1500, 2000);
+  buzz(800, 2000);
 
   float ePosition = st_get_position_mm(E_AXIS);
   if (unload_load == 0)
@@ -461,8 +461,8 @@ static void lcd_filament_change_unload_load (unsigned int extruder, unsigned int
     plan_buffer_line(current_position[X_AXIS],
 		     current_position[Y_AXIS],
 		     current_position[Z_AXIS],
-		     (ePosition - 60),
-		     6,
+		     (ePosition - 50),
+		     4,
 		     extruder);
   }
   else if (unload_load == 1)
@@ -471,8 +471,8 @@ static void lcd_filament_change_unload_load (unsigned int extruder, unsigned int
     plan_buffer_line(current_position[X_AXIS],
 		     current_position[Y_AXIS],
 		     current_position[Z_AXIS],
-		     (ePosition + 60),
-		     6, \
+		     (ePosition + 50),
+		     4, \
 		     extruder);
   }
 
@@ -629,7 +629,7 @@ static void lcd_filament_change_move_to_position()
   enqueuecommands_P(PSTR("G28 Y"));
   enqueuecommands_P(PSTR("G28 Z"));
   enqueuecommands_P(PSTR("G1 F300"));
-  enqueuecommands_P(PSTR("G1 Z20"));
+  enqueuecommands_P(PSTR("G1 X20 Z20"));
 
   END_MENU();
 }
