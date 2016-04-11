@@ -490,5 +490,29 @@
 #ifndef MSG_DELTA_CALIBRATE_CENTER
   #define MSG_DELTA_CALIBRATE_CENTER          "Calibrate Center"
 #endif
+#ifndef MSG_BACK
+#define MSG_BACK		            "Back"
+#endif
+#ifndef MSG_CHANGE_FILAMENT_EXTRUDER_0
+#define MSG_CHANGE_FILAMENT_EXTRUDER_0	    "Extruder 0"
+#endif
+#ifndef MSG_CHANGE_FILAMENT_EXTRUDER_1
+#define MSG_CHANGE_FILAMENT_EXTRUDER_1	    "Extruder 1"
+#endif
+#ifndef MSG_CHANGE_FILAMENT_PLA
+#define MSG_CHANGE_FILAMENT_PLA	            "PLA"
+#endif
+#ifndef MSG_CHANGE_FILAMENT_ABS
+#define MSG_CHANGE_FILAMENT_ABS             "ABS"
+#endif
+#ifndef MSG_CHANGE_FILAMENT_LOAD
+#define MSG_CHANGE_FILAMENT_LOAD            "Load"
+#endif
+#ifndef MSG_CHANGE_FILAMENT_UNLOAD
+#define MSG_CHANGE_FILAMENT_UNLOAD          "Unload"
+#endif
+#ifndef MSG_CHANGE_FILAMENT_MOVE_TO_POSITION
+#define MSG_CHANGE_FILAMENT_MOVE_TO_POSITION "Move to position"
+#endif
 
 #endif // LANGUAGE_EN_H

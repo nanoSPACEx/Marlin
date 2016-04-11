@@ -453,6 +453,264 @@ static void lcd_return_to_status() {
 
 #endif //SDSUPPORT
 
+static void lcd_filament_change();
+static void lcd_filament_change_move_to_position();
+static void lcd_filament_change_extruder_0();
+static void lcd_filament_change_extruder_1();
+static void lcd_filament_change_ext0_pla ();
+static void lcd_filament_change_ext0_abs ();
+static void lcd_filament_change_ext1_pla ();
+static void lcd_filament_change_ext1_abs ();
+static void lcd_filament_change_ext0_pla_unload ();
+static void lcd_filament_change_ext0_abs_unload ();
+static void lcd_filament_change_ext0_pla_load ();
+static void lcd_filament_change_ext0_abs_load ();
+static void lcd_filament_change_ext1_pla_unload ();
+static void lcd_filament_change_ext1_abs_unload ();
+static void lcd_filament_change_ext1_pla_load ();
+static void lcd_filament_change_ext1_abs_load ();
+static void lcd_filament_change_unload_unload (unsigned int extruder, unsigned int pla_abs, unsigned int unload_load);
+
+static void lcd_filament_change_unload_load (unsigned int extruder, unsigned int pla_abs, unsigned int unload_load)
+{
+  //change the tool/extruder
+  if (extruder == 0)
+  {
+      enqueue_and_echo_commands_P(PSTR("T0"));
+  }
+  else if (extruder == 1)
+  {
+      enqueue_and_echo_commands_P(PSTR("T1"));
+  }
+
+  // heating
+  if (pla_abs == 0)
+  {
+    setTargetHotend(plaPreheatHotendTemp, extruder);
+  }
+  else if (pla_abs == 1)
+  {
+    setTargetHotend(absPreheatHotendTemp, extruder);
+  }
+
+  tp_init(); //initialize the heating process
+
+  // wait for end of heating
+  unsigned long next_update = millis() + 500;
+  while (isHeatingHotend(extruder)) {
+    if (next_update < millis()) {
+      lcd.setCursor(1, 0);
+      lcd.print("Please wait");
+      lcd.setCursor(1, 2);
+      lcd.print("Heating...");
+      lcd.setCursor(1, 3);
+      lcd.print("Temp: ");
+      lcd.print((int) degHotend(extruder));
+
+      manage_heater();
+      next_update = millis() + 500;
+    }
+  }
+
+  // alert the user with sound that extrude will start
+  buzz(800, 2000);
+
+  float ePosition = st_get_axis_position_mm(E_AXIS);
+  if (unload_load == 0)
+  {
+    // retraction
+    plan_buffer_line(current_position[X_AXIS],
+		     current_position[Y_AXIS],
+		     current_position[Z_AXIS],
+		     (ePosition - 50),
+		     4,
+		     extruder);
+  }
+  else if (unload_load == 1)
+  {
+    // extrude
+    plan_buffer_line(current_position[X_AXIS],
+		     current_position[Y_AXIS],
+		     current_position[Z_AXIS],
+		     (ePosition + 50),
+		     4, \
+		     extruder);
+  }
+
+  // update LCD and return
+  lcdDrawUpdate = 2;
+  if (extruder == 0)
+  {
+    if (pla_abs == 0)
+    {
+      menu_action_back(lcd_filament_change_ext0_pla);
+    }
+    else if (pla_abs == 1)
+    {
+      menu_action_back(lcd_filament_change_ext0_abs);
+    }
+  }
+  else if (extruder == 1)
+  {
+    if (pla_abs == 0)
+    {
+      menu_action_back(lcd_filament_change_ext1_pla);
+    }
+    else if (pla_abs == 1)
+    {
+      menu_action_back(lcd_filament_change_ext1_abs);
+    }
+  }
+}
+
+static void lcd_filament_change_ext0_pla_unload ()
+{
+    lcd_filament_change_unload_load(0, 0, 0);
+}
+
+static void lcd_filament_change_ext0_abs_unload ()
+{
+    lcd_filament_change_unload_load(0, 1, 0);
+}
+
+static void lcd_filament_change_ext0_pla_load ()
+{
+    lcd_filament_change_unload_load(0, 0, 1);
+}
+
+static void lcd_filament_change_ext0_abs_load ()
+{
+    lcd_filament_change_unload_load(0, 1, 1);
+}
+
+static void lcd_filament_change_ext1_pla_unload ()
+{
+    lcd_filament_change_unload_load(1, 0, 0);
+}
+
+static void lcd_filament_change_ext1_abs_unload ()
+{
+    lcd_filament_change_unload_load(1, 1, 0);
+}
+
+static void lcd_filament_change_ext1_pla_load ()
+{
+    lcd_filament_change_unload_load(1, 0, 1);
+}
+
+static void lcd_filament_change_ext1_abs_load ()
+{
+    lcd_filament_change_unload_load(1, 1, 1);
+}
+
+static void lcd_filament_change_ext0_pla ()
+{
+  START_MENU();
+
+  // Go back to previous menu
+  MENU_ITEM(back, MSG_BACK, lcd_filament_change_extruder_0);
+
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_UNLOAD, lcd_filament_change_ext0_pla_unload);
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_LOAD, lcd_filament_change_ext0_pla_load);
+
+  END_MENU();
+}
+
+static void lcd_filament_change_ext0_abs ()
+{
+  START_MENU();
+
+  // Go back to previous menu
+  MENU_ITEM(back, MSG_BACK, lcd_filament_change_extruder_0);
+
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_UNLOAD, lcd_filament_change_ext0_abs_unload);
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_LOAD, lcd_filament_change_ext0_abs_load);
+
+  END_MENU();
+}
+
+static void lcd_filament_change_ext1_pla ()
+{
+  START_MENU();
+
+  // Go back to previous menu
+  MENU_ITEM(back, MSG_BACK, lcd_filament_change_extruder_1);
+
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_UNLOAD, lcd_filament_change_ext1_pla_unload);
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_LOAD, lcd_filament_change_ext1_pla_load);
+
+  END_MENU();
+}
+
+static void lcd_filament_change_ext1_abs ()
+{
+  START_MENU();
+
+  // Go back to previous menu
+  MENU_ITEM(back, MSG_BACK, lcd_filament_change_extruder_1);
+
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_UNLOAD, lcd_filament_change_ext1_abs_unload);
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_LOAD, lcd_filament_change_ext1_abs_load);
+
+  END_MENU();
+}
+
+static void lcd_filament_change_extruder_0()
+{
+  START_MENU();
+
+  // Go back to previous menu
+  MENU_ITEM(back, MSG_BACK, lcd_filament_change);
+
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_PLA, lcd_filament_change_ext0_pla);
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_ABS, lcd_filament_change_ext0_abs);
+
+  END_MENU();
+}
+
+static void lcd_filament_change_extruder_1()
+{
+  START_MENU();
+
+  // Go back to previous menu
+  MENU_ITEM(back, MSG_BACK, lcd_filament_change);
+
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_PLA, lcd_filament_change_ext1_pla);
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_ABS, lcd_filament_change_ext1_abs);
+
+  END_MENU();
+}
+
+static void lcd_filament_change_move_to_position()
+{
+  START_MENU();
+
+  // homing and moving to Z = 20
+  enqueue_and_echo_commands_P(PSTR("G28 X"));
+  enqueue_and_echo_commands_P(PSTR("G28 Y"));
+  enqueue_and_echo_commands_P(PSTR("G28 Z"));
+  enqueue_and_echo_commands_P(PSTR("G1 F300"));
+  enqueue_and_echo_commands_P(PSTR("G1 X20 Z20"));
+
+  END_MENU();
+}
+
+static void lcd_filament_change()
+{
+  START_MENU();
+
+  defer_return_to_status = true;
+
+  // Go back to previous menu
+  MENU_ITEM(back, MSG_BACK, lcd_main_menu);
+
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_MOVE_TO_POSITION, lcd_filament_change_move_to_position);
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_EXTRUDER_0, lcd_filament_change_extruder_0);
+  MENU_ITEM(submenu, MSG_CHANGE_FILAMENT_EXTRUDER_1, lcd_filament_change_extruder_1);
+
+  END_MENU();
+}
+
 /**
  *
  * "Main" menu
@@ -462,16 +720,7 @@ static void lcd_return_to_status() {
 static void lcd_main_menu() {
   START_MENU();
   MENU_ITEM(back, MSG_WATCH, lcd_status_screen);
-  if (movesplanned() || IS_SD_PRINTING) {
-    MENU_ITEM(submenu, MSG_TUNE, lcd_tune_menu);
-  }
-  else {
-    MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
-    #if ENABLED(DELTA_CALIBRATION_MENU)
-      MENU_ITEM(submenu, MSG_DELTA_CALIBRATE, lcd_delta_calibrate_menu);
-    #endif
-  }
-  MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
+
 
   #if ENABLED(SDSUPPORT)
     if (card.cardOK) {
@@ -496,6 +745,32 @@ static void lcd_main_menu() {
       #endif
     }
   #endif //SDSUPPORT
+
+  if (movesplanned() || IS_SD_PRINTING) {
+    MENU_ITEM(submenu, MSG_TUNE, lcd_tune_menu);
+  }
+  else {
+
+    // Filament change
+    //
+    MENU_ITEM(submenu, MSG_FILAMENTCHANGE, lcd_filament_change);
+
+    //
+    // Level Bed
+    //
+    #if ENABLED(AUTO_BED_LEVELING_FEATURE)
+      if (axis_known_position[X_AXIS] && axis_known_position[Y_AXIS])
+      MENU_ITEM(gcode, MSG_LEVEL_BED, PSTR("G29"));
+    #elif ENABLED(MANUAL_BED_LEVELING)
+      MENU_ITEM(submenu, MSG_LEVEL_BED, lcd_level_bed);
+    #endif
+
+    MENU_ITEM(submenu, MSG_PREPARE, lcd_prepare_menu);
+    #if ENABLED(DELTA_CALIBRATION_MENU)
+      MENU_ITEM(submenu, MSG_DELTA_CALIBRATE, lcd_delta_calibrate_menu);
+    #endif
+  }
+  MENU_ITEM(submenu, MSG_CONTROL, lcd_control_menu);
 
   END_MENU();
 }
@@ -1919,7 +2194,13 @@ void lcd_update() {
                   SERIAL_ECHO("  Multiplier: ");
                   SERIAL_ECHO(encoderMultiplier);
                   SERIAL_ECHO("  ENCODER_10X_STEPS_PER_SEC: ");
-                  SERIAL_ECHO(ENCODER_10X_STEPS_PER_SEC);
+                  SERIAL_ECHO(ENCODER_10X+	  currentMenu != lcd_filament_change &&
+			      +	  currentMenu != lcd_filament_change_extruder_0 &&
+			      +	  currentMenu != lcd_filament_change_extruder_1 &&
+			      +	  currentMenu != lcd_filament_change_ext0_pla &&
+			      +	  currentMenu != lcd_filament_change_ext0_abs &&
+			      +	  currentMenu != lcd_filament_change_ext1_pla &&
+			      +	  currentMenu != lcd_filament_change_ext1_abs &&_STEPS_PER_SEC);
                   SERIAL_ECHO("  ENCODER_100X_STEPS_PER_SEC: ");
                   SERIAL_ECHOLN(ENCODER_100X_STEPS_PER_SEC);
                 #endif //ENCODER_RATE_MULTIPLIER_DEBUG

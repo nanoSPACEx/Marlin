@@ -88,8 +88,8 @@
   #define DEFAULT_MACHINE_NAME "SAV MkI"
   #define DEFAULT_SOURCE_URL "https://github.com/fmalpartida/Marlin/tree/SAV-MkI-config"
 #else
-  #define DEFAULT_MACHINE_NAME "3D Printer"
-  #define DEFAULT_SOURCE_URL "https://github.com/MarlinFirmware/Marlin"
+  #define DEFAULT_MACHINE_NAME "helloBEEprusa"
+  #define DEFAULT_SOURCE_URL "https://github.com/beeverycreative/Marlin"
 #endif
 
 #ifdef CUSTOM_MACHINE_NAME
